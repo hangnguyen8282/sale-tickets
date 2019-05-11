@@ -1,0 +1,64 @@
+<template>
+  <v-container grid-list-xl>
+    <v-layout flex-child wrap>
+      <v-flex xs12 md6>
+        <v-flex xs12 md6></v-flex>
+        <v-text-field v-model="pnrcode" :rules="pnrRules" label="Mã xác nhận PNR" required></v-text-field>
+        <v-text-field v-model="lastname" :rules="nameRules" label="Họ" required></v-text-field>
+        <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+      </v-flex>
+      <v-flex xs12 md6>
+        <v-img src="https://picsum.photos/510/300?random" aspect-ratio="2"></v-img>
+        <v-btn color="success">ĐĂNG NHẬP VÀO TÀI KHOẢN CỦA TÔI</v-btn>
+        <v-layout>
+          <v-flex xs12 md6>
+            <v-text-field
+              v-model="numbercard"
+              :rules="numbercardRules"
+              label="Nhập số thẻ"
+              required
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12 md6>
+            <v-text-field v-model="passcard" :rules="passcardRules" label="Mật khẩu" required></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout>
+          <v-flex xs12 md6>
+            <button style="color:#3498db">Quên mật khẩu?</button>
+          </v-flex>
+          <v-flex xs12 md6>
+            <v-btn color="success">Đăng nhập</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+  </v-container>
+</template>
+
+<script>
+export default {
+  data: () => ({
+    valid: false,
+    pnrcode: "",
+    pnrRules: [
+      v => !!v || "Yêu cầu có PNR",
+      v => /^\d+$/.test(v) || "PNR must be valid"
+    ],
+    lastname: "",
+    nameRules: [v => !!v || "Yêu cầu có họ"],
+    email: "",
+    emailRules: [
+      v => !!v || "Yêu cầu có email",
+      v => /.+@.+/.test(v) || "E-mail must be valid"
+    ],
+    numbercard: "",
+    numbercardRules: [v => !!v],
+    passcard: "",
+    passcardRules: [v => !!v]
+  })
+};
+</script>
+
+<style scoped>
+</style>
