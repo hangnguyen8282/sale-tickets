@@ -6,8 +6,8 @@ const Airport = new Schema({
     name: { type: String, required: true },
     lat: { type: Number, required: true },
     long: { type: Number, required: true },
-    routes: { type: String },
-    currencyCode: {type: String },
+    routes: { type: String, default: '' },
+    currencyCode: { type: String },
     countryCode: { type: String, required: true },
     countryName: { type: String, required: true },
 })
