@@ -4,10 +4,13 @@
     <v-btn round color="success" @click="type = 'two-way'">Khứ hồi</v-btn>
     <v-layout flex-child wrap>
       <v-flex xs12 md6>
-        <v-combobox v-model="destination" :items="airportDestinationList" :item-text="'text'" :filter="filter" label="Từ"></v-combobox>
-        <v-form ref="form">
-          <v-text-field v-model="numCustomer" label="Hành khách" type="number"></v-text-field>
-        </v-form>
+        <v-combobox
+          v-model="destination"
+          :items="airportDestinationList"
+          :item-text="'text'"
+          :filter="filter"
+          label="Từ"
+        ></v-combobox>
         <v-dialog ref="dialog" v-model="modalPicker" full-width width="290px">
           <template v-slot:activator="{ on }">
             <v-text-field
@@ -24,10 +27,6 @@
             <v-btn flat color="primary" @click="$refs.dialog.save(dateStart)">OK</v-btn>
           </v-date-picker>
         </v-dialog>
-      </v-flex>
-      <v-flex xs12 md6>
-        <v-combobox v-model="source" :items="airportSourceList" label="Đến"></v-combobox>
-        <v-select :items="kind" label="Hạng"></v-select>
         <v-dialog
           ref="dialog"
           v-model="modalPicker"
@@ -51,6 +50,13 @@
           </v-date-picker>
         </v-dialog>
       </v-flex>
+      <v-flex xs12 md6>
+        <v-combobox v-model="source" :items="airportSourceList" label="Đến"></v-combobox>
+        <v-form ref="form">
+          <v-text-field v-model="numCustomer" label="Hành khách" type="number"></v-text-field>
+        </v-form>
+      </v-flex>
+      <v-btn @click="onSearch">Tìm kiếm</v-btn>
     </v-layout>
   </v-container>
 </template>
@@ -66,16 +72,16 @@ export default {
     numCustomer: 1,
     modalPicker: false,
     airports: [],
-    kind: ['Phổ thông', 'Thương gia'],
+    kind: ["Phổ thông", "Thương gia"],
     dateStart: new Date().toISOString().substr(0, 10),
     dateEnd: new Date().toISOString().substr(0, 10)
   }),
   async created() {
-    const list = await getAriportList();
-    this.airports = list.map(item => {
-        item.text = item.name + ` (${item.key})`
-        return item
-      })
+    // const list = await getAriportList();
+    // this.airports = list.map(item => {
+    //     item.text = item.name + ` (${item.key})`
+    //     return item
+    //   })
   },
   computed: {
     dateStartFormatted() {
@@ -85,17 +91,17 @@ export default {
       return this.formatDate(this.dateEnd);
     },
     airportDestinationList() {
-      return this.airports
+      return this.airports;
     },
     airportSourceList() {
       if (!!this.destination) {
-        const {routes} = this.destination
+        const { routes } = this.destination;
         if (routes) {
-          const list = routes.split('|')
-          return this.airports.filter(item => list.indexOf(item.key) != -1)
+          const list = routes.split("|");
+          return this.airports.filter(item => list.indexOf(item.key) != -1);
         }
       }
-      return this.airports
+      return this.airports;
     }
   },
   watch: {
@@ -114,12 +120,16 @@ export default {
       return `${day} / ${month} / ${year}`;
     },
     filter(item, queryText, itemText) {
-      queryText = removeAccent(queryText)
-      itemText = removeAccent(itemText)
-      return (
-        itemText.indexOf(queryText) > -1
-      )
-    }
+      queryText = removeAccent(queryText);
+      itemText = removeAccent(itemText);
+      return itemText.indexOf(queryText) > -1;
+    },
+    onSearch() {
+      const pramas = {
+        
+      }
+      this.$emit('clicked', pramas)
+    } 
   }
 };
 </script>

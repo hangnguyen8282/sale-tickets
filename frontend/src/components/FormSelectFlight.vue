@@ -1,92 +1,167 @@
 <template>
   <v-container grid-list-xl>
-    <div class="label-on-first">
-      <div class="label-on-second">
-        <v-layout flex-child wrap>
-          <v-flex sm12 md2>
-            <div class="source-point"></div>
-          </v-flex>
-          <v-flex md1>
-            <div class="icon-fly">
-              <!-- <image src="../assets/images/background.jpg"> -->
-            </div>
-          </v-flex>
-          <v-flex sm12 md2>
-            <div class="destination-point"></div>
-          </v-flex>
-          <v-flex md1>
-            <div class="sperate-bar"></div>
-          </v-flex>
-          <v-flex sm12 md3>
-            <div class="date-selected"></div>
-          </v-flex>
-          <v-flex md1>
-            <div class="sperate-bar"></div>
-          </v-flex>
-          <v-flex sm12 md2>
-            <div class="passenger-number"></div>
-          </v-flex>
-        </v-layout>
-      </div>
-    </div>
-    <div class="title-page-2">Chuyến bay chiều đi</div>
-    <table border="1px" cellpadding="5px" cellspacing="0px" class="flight-table">
-      <tr>
-        <v-flex xs12 md6>
-          <td>HTML</td>
-          <td>JavaScript</td>
-          <td>PHP</td>
+    <Information/>
+    <p class="title-page-2">Chuyến bay chiều đi</p>
+    <div class="table-flight">
+      <v-layout class="table-header">
+        <v-flex xs6 md4 class="item">Thời gian</v-flex>
+        <v-flex xs6 md2 class="item">Điểm dừng</v-flex>
+        <v-flex xs6 md3 class="item">Phổ thông</v-flex>
+        <v-flex xs6 md3 class="item">Thương gia</v-flex>
+      </v-layout>
+      <v-layout class="table-items" @mouseover="showBtnSelect(1)">
+        <v-flex xs6 md4>
+          <span>11 Th05 15:00 Đến 11 Th05 17:15</span>
+          <br>
+          <span>VN 247 Airbus A350</span>
+          <br>
+          <span>2 tiếng 15 phút</span>
         </v-flex>
-      </tr>
-      <tr>
-        <td>CSS</td>
-        <td>jQuery</td>
-        <td>MySQL</td>
-      </tr>
-      <tr>
-        <td>Bootstrap 3</td>
-        <td>Ajax</td>
-        <td>ASP.NET</td>
-      </tr>
-    </table>
+        <v-flex xs6 md2>Bay thẳng</v-flex>
+        <v-flex xs6 md3 class="type">
+          <div class="title">ECONOMIC</div>
+          <p>Từ</p>
+          <span>3,870,000 VND (M)</span>
+          <v-btn v-if="showBtn == 1" @click="onClickBtnSelect('economic')">Chọn</v-btn>
+        </v-flex>
+        <v-flex xs6 md3 class="type">
+          <div class="title">BUSSINESS</div>
+          <p>Từ</p>
+          <span>3,870,000 VND (M)</span>
+          <v-btn v-if="showBtn == 1" @click="onClickBtnSelect('bussiness')">Chọn</v-btn>
+          <p v-if="type == 'bussiness'">Bussiness</p>
+        </v-flex>
+      </v-layout>
+      <v-layout class="table-items" @mouseover="showBtnSelect(2)">
+        <v-flex xs6 md4>
+          <span>11 Th05 15:00 Đến 11 Th05 17:15</span>
+          <br>
+          <span>VN 247 Airbus A350</span>
+          <br>
+          <span>2 tiếng 15 phút</span>
+        </v-flex>
+        <v-flex xs6 md2>Bay thẳng</v-flex>
+        <v-flex xs6 md3 class="type">
+          <div class="title">ECONOMIC</div>
+          <p>Từ</p>
+          <span>3,870,000 VND (M)</span>
+          <v-btn v-if="showBtn == 2">Chọn</v-btn>
+        </v-flex>
+        <v-flex xs6 md3 class="type">
+          <div class="title">BUSSINESS</div>
+          <p>Từ</p>
+          <span>3,870,000 VND (M)</span>
+          <v-btn v-if="showBtn == 2">Chọn</v-btn>
+        </v-flex>
+      </v-layout>
+      <v-layout class="table-items" @mouseover="showBtnSelect(3)">
+        <v-flex xs6 md4>
+          <span>11 Th05 15:00 Đến 11 Th05 17:15</span>
+          <br>
+          <span>VN 247 Airbus A350</span>
+          <br>
+          <span>2 tiếng 15 phút</span>
+        </v-flex>
+        <v-flex xs6 md2>Bay thẳng</v-flex>
+        <v-flex xs6 md3 class="type">
+          <div class="title">ECONOMIC</div>
+          <p>Từ</p>
+          <span>3,870,000 VND (M)</span>
+          <v-btn v-if="showBtn == 3">Chọn</v-btn>
+        </v-flex>
+        <v-flex xs6 md3 class="type">
+          <div class="title">BUSSINESS</div>
+          <p>Từ</p>
+          <span>3,870,000 VND (M)</span>
+          <v-btn v-if="showBtn == 3">Chọn</v-btn>
+        </v-flex>
+      </v-layout>
+      <v-layout class="table-items" @mouseover="showBtnSelect(4)">
+        <v-flex xs6 md4>
+          <span>11 Th05 15:00 Đến 11 Th05 17:15</span>
+          <br>
+          <span>VN 247 Airbus A350</span>
+          <br>
+          <span>2 tiếng 15 phút</span>
+        </v-flex>
+        <v-flex xs6 md2>Bay thẳng</v-flex>
+        <v-flex xs6 md3 class="type">
+          <div class="title">ECONOMIC</div>
+          <p>Từ</p>
+          <span>3,870,000 VND (M)</span>
+          <v-btn v-if="showBtn == 4">Chọn</v-btn>
+        </v-flex>
+        <v-flex xs6 md3 class="type">
+          <div class="title">BUSSINESS</div>
+          <p>Từ</p>
+          <span>3,870,000 VND (M)</span>
+          <v-btn v-if="showBtn == 4">Chọn</v-btn>
+        </v-flex>
+      </v-layout>
+    </div>
   </v-container>
 </template>
 
 <script>
+import Information from "@/components/Information";
+export default {
+  components:{
+    Information
+  },
+  data: () => ({
+    showBtn: null,
+    type: null
+  }),
+  methods: {
+    showBtnSelect(n) {
+      this.showBtn = n;
+    },
+    onClickBtnSelect(type) {
+      console.log(type);
+      this.type = type;
+    }
+  }
+};
 </script>
 
 <style>
-.label-on-first {
-  background-color: #2980b9;
-  color: white;
+.table-header {
+  background-color: #aac8dc;
+  font-weight: bold;
+  font-size: 16px;
   width: 100%;
-  height: 100px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin: 0 auto !important;
 }
-.label-on-second {
+.table-items {
   width: 100%;
-  height: 100px;
-  /* padding: 10px; */
-  /* padding-left: 50px; */
+  margin: 0 auto !important;
 }
-.source-point {
-  max-width: 25%;
+.table-items:hover {
+  background-color: white !important;
 }
-.destination-point {
-  max-width: 25%;
+.table-items:nth-child(even) {
+  background-color: #b3d0dc8f;
 }
-.icon-fly {
-  /* padding: 20px; */
-  width: 100%;
-  height: 10px;
+.table-items:nth-child(odd) {
+  background-color: #d6eaf8;
 }
-.sperate-bar {
-  color: white;
-  /* width: */
-  height: 4rem;
-  margin: 0.75rem;
-  border-right: solid 0.625rem;
-  border-right-style: solid;
-  border-right-width: 0.0625rem;
+.type {
+  margin: 10px;
+  border-radius: 4px;
+}
+.type p {
+  margin: 0 !important;
+  padding-left: 10px;
+}
+.type {
+  border-left: 10px solid #e59866;
+  background-color: #efefef;
+}
+.group {
+  display: flex;
+  flex: 1;
 }
 .title-page-2 {
   padding-top: 20px;
@@ -99,19 +174,4 @@
 table {
   display: block;
 }
-/* .flight-table {
-  border-collapse: separate;
-  border-spacing: 2px;
-  border-color: grey;
-  display: block;
-  margin-bottom: 2rem;
-}
-.flight-table-header {
-  weight: 100%;
-  height: auto;
-  display: inline-block;
-  background-color: #dff0f6;
-  border-radius: 5px;
-  color: black;
-} */
 </style>

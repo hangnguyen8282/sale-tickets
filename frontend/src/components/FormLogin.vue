@@ -6,6 +6,7 @@
         <v-text-field v-model="pnrcode" :rules="pnrRules" label="Mã xác nhận PNR" required></v-text-field>
         <v-text-field v-model="lastname" :rules="nameRules" label="Họ" required></v-text-field>
         <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+        <v-btn color="info">Tìm kiếm</v-btn>
       </v-flex>
       <v-flex xs12 md6>
         <v-img src="https://picsum.photos/510/300?random" aspect-ratio="2"></v-img>
