@@ -56,7 +56,9 @@
           <v-text-field v-model="numCustomer" label="Hành khách" type="number"></v-text-field>
         </v-form>
       </v-flex>
-      <v-btn @click="onSearch">Tìm kiếm</v-btn>
+      <v-flex xs12 md12 style="padding-left: 500px">
+        <v-btn color="info" @click="onSearch">Tìm kiếm</v-btn>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -117,6 +119,7 @@ export default {
       if (!date) return null;
 
       const [year, month, day] = date.split("-");
+      console.log(date)
       return `${day} / ${month} / ${year}`;
     },
     filter(item, queryText, itemText) {
@@ -125,11 +128,13 @@ export default {
       return itemText.indexOf(queryText) > -1;
     },
     onSearch() {
-      const pramas = {
-        
-      }
-      this.$emit('clicked', pramas)
-    } 
+      const params = {
+        // destinationSend: this.destination,
+        dateSend: this.dateStart,
+        dataNumberCustomer: this.numCustomer
+      };
+      this.$emit("clicked", params);
+    }
   }
 };
 </script>

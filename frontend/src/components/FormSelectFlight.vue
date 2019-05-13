@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xl>
-    <Information/>
+    <Information :receiveParams="receiveData"/>
     <p class="title-page-2">Chuyến bay chiều đi</p>
     <div class="table-flight">
       <v-layout class="table-header">
@@ -29,7 +29,6 @@
           <p>Từ</p>
           <span>3,870,000 VND (M)</span>
           <v-btn v-if="showBtn == 1" @click="onClickBtnSelect('bussiness')">Chọn</v-btn>
-          <p v-if="type == 'bussiness'">Bussiness</p>
         </v-flex>
       </v-layout>
       <v-layout class="table-items" @mouseover="showBtnSelect(2)">
@@ -105,20 +104,26 @@
 <script>
 import Information from "@/components/Information";
 export default {
-  components:{
+  components: {
     Information
+  },
+  props: {
+    receiveData: null
   },
   data: () => ({
     showBtn: null,
-    type: null
+    type: null,
+    // receiveData:null
+    // receiceParams: null
   }),
   methods: {
     showBtnSelect(n) {
       this.showBtn = n;
     },
     onClickBtnSelect(type) {
-      console.log(type);
       this.type = type;
+      this.$emit("clickBtnSelect", type);
+      
     }
   }
 };

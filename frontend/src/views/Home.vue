@@ -26,10 +26,11 @@
 
         <!-- switch to page 2 -->
         <v-window-item :value="2">
-          <FormSelectFlight/>
+          <FormSelectFlight :receiveData="sentData1" @clickBtnSelect="clickOfChildTwo"/>
         </v-window-item>
 
         <v-window-item :value="3">
+          {{type}}
           <FormInfoCustomer/>
         </v-window-item>
       </v-window>
@@ -68,7 +69,9 @@ export default {
     tabActive: 0,
     widthWindow: 700,
     tab: ["Mua vé trực tuyến", "Quản lý chuyến bay"],
-    model: null
+    model: null,
+    sentData1: null,
+    type: null
   }),
 
   computed: {
@@ -84,6 +87,10 @@ export default {
     }
   },
   methods: {
+    clickOfChildTwo(type){
+      this.step ++
+      this.type = type
+    },
     onClickSearch() {
       this.step = this.step + 1;
       if (this.step == 2) {
@@ -93,7 +100,8 @@ export default {
       }
     },
     onEventOfChild(params) {
-      console.log(params)
+      this.sentData1 = params
+      this.step ++
     }
   }
 };
