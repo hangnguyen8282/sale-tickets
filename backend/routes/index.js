@@ -40,22 +40,37 @@ function distanceBetween2Points(la1, lo1, la2, lo2) {
 }
 
 router.post('/add-flight', function(req, res, next) {
-    Airport.find({ countryCode: 'VN' })
+    Airport.find()
         .exec((err, list) => {
+            const airports = {}
+            list.forEach(item => {
+                    airports[item.key] = item
+                })
+                // for (let key in airports) {
+                //     const current = airports[key]
+                //     res.send({
+                //         [key]: airports[key]
+                //     })
+                //     return
+                // }
             const flightList = list.reduce(function(flights, item) {
                 let { routes, key, countryCode, lat, long } = item
                 routes = routes.split('|')
                 if (routes.length > 0) {
                     routes.forEach(code => {
+                        const d = distanceBetween2Points(
+                            airports[key].lat, airports[key].long,
+                            airports[code].lat, airports[code].long,
+                        )
                         const newFlight = new Flight({
-                            flight_number: getFlightNumber(countryCode),
+                            flight_number: key + code + d,
                             planes_code: getPlanesCode(),
                             airport_go: key,
                             airport_to: code,
                             datetime: Math.floor(Date.now() / 1000),
                             customer: [],
                             price_economy: 0,
-                            price_bussiness: 0
+                            price_bussiness: 0,
                         })
                         newFlight.save()
                     })

@@ -98,6 +98,9 @@
         </v-flex>
       </v-layout>
     </div>
+        <v-flex md6 class="back-button">
+        <v-btn round outline color="info">Quay lại</v-btn>
+      </v-flex>
   </v-container>
 </template>
 
@@ -130,6 +133,9 @@ export default {
 </script>
 
 <style>
+.back-button{
+  margin-top: 30px;
+}
 .table-header {
   background-color: #aac8dc;
   font-weight: bold;
