@@ -2,12 +2,12 @@
   <v-container grid-list-xl>
     <v-layout wrap>
       <div class="label-info-review">Xem lại và thanh toán</div>
+              {{receiveData}}  
       <v-layout class="information-review">
         <v-flex md6>
           <v-flex md12 class="review-info">
             <div class= "title">Chọn chuyến bay</div>
             <div class="review-price">
-              {{receiveData}}
             <div class="review-price-body">{{receiveData !=null ? receiveData.destinationSend.text : ''}}</div>
             <hr/>
             <div class="review-price-body">{{receiveData !=null ? receiveData.destinationSend.text : ''}}</div>
@@ -33,30 +33,33 @@
           </v-flex>
         </v-flex>
       </v-layout>
-      <!-- <v-flex md12> -->
       <v-flex md6>
         <v-btn round outline color="info" @click="clickToBack">Quay lại</v-btn>
       </v-flex>
       <v-flex md6>
         <v-btn round color="info" @click="clickToNext">Tiếp theo</v-btn>
       </v-flex>
-      <!-- </v-flex> -->
+      <!-- {{info}} -->
     </v-layout>
   </v-container>
 </template>
 
 <script>
 export default {
-  props:{
-    receiveData: null
+  props: {
+    info: null,
+    receiveData: Object
   },
   methods: {
     clickToNext() {
-      this.$emit("clickBtnNext");
+      this.$emit("onFormPayNext");
     },
     clickToBack() {
       this.$emit("clickBtnBack");
     },
+    // receivePoint(){
+    //   this.receivePoint = receivePoint 
+    // }
   },
 };
 </script>

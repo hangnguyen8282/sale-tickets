@@ -1,19 +1,16 @@
 <template>
   <v-container grid-list-xl>
-    <Information :receiveParams="receiveData"/>
+    <Information :receiveParams="receiveData" :flight="flight"/>
     <div class="info-format" solid>
       <v-layout flex-child wrap>
         <v-flex md12>
           <div class="title-frame-info">Thông tin cơ bản</div>
         </v-flex>
-        <v-flex md3>
-          <v-select :items="items" :rules="mrRules" label="Danh xưng" required></v-select>
-        </v-flex>
-        <v-flex md5>
-          <v-text-field v-model="firstname" :rules="firstnameRules" label="Tên đệm và tên" required></v-text-field>
-        </v-flex>
         <v-flex md4>
-          <v-text-field v-model="lastname" :rules="lastnameRules" label="Họ" required></v-text-field>
+          <v-select v-model="mrTitle" :items="items" :rules="mrRules" label="Danh xưng" required></v-select>
+        </v-flex>
+        <v-flex md8>
+          <v-text-field v-model="name" :rules="nameRules" label="Họ tên" required></v-text-field>
         </v-flex>
         <!-- <v-flex md12> -->
         <v-flex xs6>
@@ -30,7 +27,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
-                v-model="date"
+                v-model="birthDate"
                 label="Ngày tháng năm sinh"
                 prepend-icon="event"
                 readonly
@@ -39,7 +36,7 @@
             </template>
             <v-date-picker
               ref="picker"
-              v-model="date"
+              v-model="birthDate"
               :max="new Date().toISOString().substr(0, 10)"
               min="1950-01-01"
               @change="save"
@@ -49,52 +46,24 @@
         <v-flex md6>
           <v-select :items="sexitems" :rules="sexRules" label="Giới tính" required></v-select>
         </v-flex>
-        <v-flex md12>
-          <v-checkbox
-            v-model="checkbox"
-            :label="`Tôi đồng ý nhận các thông tin quảng cáo chi tiết trong Chính sách bảo mật`"
-          ></v-checkbox>
+        <v-flex xs12 md6>
+          <v-text-field v-model="phone" :rules="phoneRules" label="Số điện thoại"></v-text-field>
+        </v-flex>
+        <v-flex md6>
+          <v-text-field v-model="email" :rules="emailRules" label="Địa chỉ email" required></v-text-field>
         </v-flex>
       </v-layout>
     </div>
-    <div class="info-format" solid>
+    <div solid>
       <v-layout flex-child wrap>
-        <v-flex md12>
-          <div class="title-frame-info">Thông tin liên hệ</div>
-        </v-flex>
-        <v-flex xs12 md6>
-          <v-text-field v-model="sdt1" :rules="phoneRules" label="Số điện thoại 1"></v-text-field>
-        </v-flex>
-        <v-flex xs12 md6>
-          <v-text-field v-model="sdt2" label="Số điện thoại 2"></v-text-field>
+        <v-flex md6>
+          <v-btn round outline color="info" @click="clickToBack">Quay lại</v-btn>
         </v-flex>
         <v-flex md6>
-          <v-text-field v-model="email1" :rules="emailRules" label="Địa chỉ email 1" required></v-text-field>
-        </v-flex>
-        <v-flex md6>
-          <v-text-field
-            v-model="email1Confirm"
-            :rules="emailRules"
-            label="Xác nhận địa chỉ email 1"
-            required
-          ></v-text-field>
-        </v-flex>
-        <v-flex md6>
-          <v-text-field v-model="email2" label="Địa chỉ email 2" required></v-text-field>
-        </v-flex>
-        <v-flex md6>
-          <v-text-field v-model="email2Confirm" label="Xác nhận địa chỉ email 2" required></v-text-field>
+          <v-btn round color="info" @click="clickToNext">Tiếp theo</v-btn>
         </v-flex>
       </v-layout>
     </div>
-    <v-layout>
-      <v-flex md6>
-        <v-btn round outline color="info" @click="clickToBack">Quay lại</v-btn>
-      </v-flex>
-      <v-flex md6>
-        <v-btn round color="info" @click="clickToNext">Tiếp theo</v-btn>
-      </v-flex>
-    </v-layout>
   </v-container>
 </template>
 
@@ -106,6 +75,7 @@ export default {
   },
   props: {
     receiveData: null,
+    flight: Object
   },
   watch: {
     menu(val) {
@@ -113,30 +83,34 @@ export default {
     }
   },
   data: () => ({
-    select: ["Ngày", "Tháng", "Năm"],
-    date: null,
+    mrTitle: null,
+    name: null,
+    birthDate: null,
+    sex: null,
+    phone: null,
+    email: null,
+
     menu: false,
     sexitems: ["Nam", "Nữ"],
-    sexRules: [v => !!v || "Yêu cầu có giới tính"],
     items: ["Ông", "Bà", "Cô/Chị"],
+
     mrRules: [v => !!v || "Yêu cầu có danh xưng"],
-    lastname: "",
-    lastnameRules: [v => !!v || "Yêu cầu có họ"],
-    firstname: "",
-    firstnameRules: [v => !!v || "Yêu cầu có tên"],
-    checkbox: false,
-    sdt1: "+84 ",
+    nameRules: [v => !!v || "Yêu cầu có họ và tên"],
+    sexRules: [v => !!v || "Yêu cầu có giới tính"],
     phoneRules: [v => (!!v && v.length >= 13) || "Yêu cầu có số điện thoại"],
-    sdt2: "+84 ",
-    email1: "",
-    email2: "",
-    email1Confirm: "",
-    email2Confirm: "",
     emailRules: [v => !!v || "Yêu cầu có email"]
   }),
   methods: {
     clickToNext() {
-      this.$emit("clickBtnNext");
+      const params = {
+        mrTitle: this.mrTitle,
+        name: this.name,
+        birthDate: this.birthDate,
+        sex: this.sex,
+        phone: this.phone,
+        email: this.email
+      };
+      this.$emit("onFormInfoNext", params);
     },
     clickToBack() {
       this.$emit("clickBtnBack");

@@ -131,6 +131,7 @@ export default {
       info: [],
       search: "",
       pagination: { rowsPerPage: 10 },
+      dateEnd: null,
       selected: [],
       dialog: false,
       flightNumber: "",
@@ -150,7 +151,7 @@ export default {
   },
   async created() {
     const result = await axios({
-      url: "http://192.168.1.220:3000/get-flights"
+      url: "http://localhost:3000/get-flights"
     });
     this.info = result.data.data;
     this.pagination.totalItems = this.info.length;
@@ -181,7 +182,7 @@ export default {
       }
       const result = await axios({
         method: 'post',
-        url: "http://192.168.1.220:3000/add-flight",
+        url: "http://localhost:3000/add-flight",
         data: flightAdmin
       });
       console.log(result.data)

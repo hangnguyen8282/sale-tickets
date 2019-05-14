@@ -14,7 +14,7 @@
               <FormBuyTicket @clicked="onEventOfChild"/>
             </v-tab-item>
             <v-tab-item>
-              <FormLogin/>
+              <!-- <FormLogin/> -->
             </v-tab-item>
           </v-tabs>
         </v-window-item>
@@ -25,23 +25,26 @@
             :receiveData="sentData1"
             :flightSearch="flightSearch"
             @backToPrePage="clickToBack"
-            @clickBtnSelect="clickOfChildTwo"
+            @selectType="selectType"
           />
         </v-window-item>
 
         <v-window-item :value="3">
           <FormInfoCustomer
             :receiveData="sentData1"
-            @clickBtnNext="clickButtonNext"
+            :flight="flight"
+            @onFormInfoNext="onFormInfoNext"
             @clickBtnBack="clickToBack"
           />
         </v-window-item>
 
         <v-window-item :value="4">
-          <FormPay 
+          <FormPay
+            :info="info"
             :receiveData="sentData1"
-            @clickBtnNext="clickButtonNext" 
-            @clickBtnBack="clickToBack"/>
+            @onFormPayNext="onFormPayNext"
+            @clickBtnBack="clickToBack"
+          />
         </v-window-item>
       </v-window>
 
@@ -57,7 +60,6 @@ import FormBuyTicket from "@/components/FormBuyTicket";
 import FormLogin from "@/components/FormLogin";
 import FormSelectFlight from "@/components/FormSelectFlight";
 import FormInfoCustomer from "@/components/FormInfoCustomer";
-import { constants } from "crypto";
 export default {
   components: {
     FormPay,
@@ -73,8 +75,9 @@ export default {
     tab: ["Mua vé trực tuyến", "Quản lý chuyến bay"],
     model: null,
     sentData1: null,
-    type: null,
-    flightSearch: []
+    flight: null,
+    flightSearch: [],
+    info: null
     // receivePoint: null
   }),
 
@@ -101,9 +104,9 @@ export default {
     clickToBack() {
       this.step = this.step - 1;
     },
-    clickOfChildTwo(type) {
+    selectType(flight) {
       this.step++;
-      this.type = type;
+      this.flight = flight;
     },
     async onEventOfChild(params) {
       this.sentData1 = params;
@@ -114,7 +117,7 @@ export default {
       const date = params.dateSend;
 
       const result = await axios({
-        url: "http://192.168.1.220:3000/search-flight",
+        url: "http://localhost:3000/search-flight",
         params: {
           airport_go: keyDes,
           airport_to: keySource
@@ -123,6 +126,13 @@ export default {
       this.flightSearch = result.data.list;
       // console.log(result.data.list)
       // console.log(flight)
+    },
+    onFormInfoNext(info) {
+      this.step++;
+      this.info = info;
+    },
+    onFormPayNext(info) {
+      this.info = info;
     }
   }
 };
