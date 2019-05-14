@@ -4,7 +4,7 @@
       <div class="label-on-second">
         <v-layout flex-child wrap>
           <v-flex sm12 md2>
-            <div class="show-info">{{receiveParams != null ? receiveParams.destinationSend.key : ''}}</div>
+            <div class="show-info">{{receiveParams != null && receiveParams.destinationSend ? receiveParams.destinationSend.key : ''}}</div>
             <!-- {{flight ? flight.flight_number : ''}}
             {{flight ? flight.planes_code : ''}} -->
           </v-flex>
@@ -15,7 +15,7 @@
             </div>
           </v-flex>
           <v-flex sm12 md2>
-            <div class="show-info">{{receiveParams != null ? receiveParams.sourceSend.key : ''}}</div>
+            <div class="show-info">{{receiveParams != null && receiveParams.sourceSend ? receiveParams.sourceSend.key : ''}}</div>
           </v-flex>
           <v-flex sm12 md3>
             <div class="show-date">{{receiveParams != null ? dateRenderInfo : ''}}</div>

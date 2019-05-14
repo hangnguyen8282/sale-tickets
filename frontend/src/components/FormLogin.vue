@@ -6,7 +6,25 @@
         <v-text-field v-model="pnrcode" :rules="pnrRules" label="Mã xác nhận PNR" required></v-text-field>
         <v-text-field v-model="lastname" :rules="nameRules" label="Họ" required></v-text-field>
         <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-        <v-btn color="info">Tìm kiếm</v-btn>
+        <v-dialog v-model="dialog" width="1000">
+          <template v-slot:activator="{ on }">
+            <v-btn color="info" round v-on="on">Tìm kiếm</v-btn>
+          </template>
+          <v-card class="pop-up">
+            <v-card-title class="title">Các chuyến bay đã đặt</v-card-title>
+            <v-flex md6>
+              <v-flex md12>plane-code</v-flex>
+              <v-flex md12>airport-go</v-flex>
+            </v-flex>
+            <v-flex md6>
+              <v-flex md12>airport-to</v-flex>
+              <v-flex md12>date</v-flex>
+              <!-- <v-flex md3>price</v-flex> -->
+            </v-flex>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" flat @click="dialog = false">OK</v-btn>
+          </v-card>
+        </v-dialog>
       </v-flex>
       <v-flex xs12 md6>
         <v-img src="../assets/images/300.jpeg" aspect-ratio="2"></v-img>
@@ -42,6 +60,7 @@ export default {
   data: () => ({
     valid: false,
     pnrcode: "",
+    dialog: false,
     pnrRules: [
       v => !!v || "Yêu cầu có PNR",
       v => /^\d+$/.test(v) || "PNR must be valid"

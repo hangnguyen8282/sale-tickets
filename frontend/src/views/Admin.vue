@@ -63,7 +63,7 @@
               </v-flex>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" @click="addFlightAdmin">Thêm</v-btn>
+                <v-btn color="primary" flat @click="addFlightAdmin">OK</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -151,7 +151,7 @@ export default {
   },
   async created() {
     const result = await axios({
-      url: "http://localhost:3000/get-flights"
+      url: "http://192.168.1.220:3000/get-flights"
     });
     this.info = result.data.data;
     this.pagination.totalItems = this.info.length;
@@ -171,6 +171,7 @@ export default {
   },
   methods: {
     async addFlightAdmin(){
+      this.dialog = false
       const flightAdmin = {
         flightNumber: this.flightNumber,
         planeCode: this.planeCode,
@@ -182,7 +183,7 @@ export default {
       }
       const result = await axios({
         method: 'post',
-        url: "http://localhost:3000/add-flight",
+        url: "http://192.168.1.220:3000/add-flight",
         data: flightAdmin
       });
       console.log(result.data)
