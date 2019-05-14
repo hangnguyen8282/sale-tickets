@@ -9,7 +9,7 @@
         <v-btn color="info">Tìm kiếm</v-btn>
       </v-flex>
       <v-flex xs12 md6>
-        <v-img src="https://picsum.photos/510/300?random" aspect-ratio="2"></v-img>
+        <v-img src="../assets/images/300.jpeg" aspect-ratio="2"></v-img>
         <v-btn color="success">ĐĂNG NHẬP VÀO TÀI KHOẢN CỦA TÔI</v-btn>
         <v-layout>
           <v-flex xs12 md6>

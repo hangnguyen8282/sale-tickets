@@ -56,7 +56,7 @@
           <v-text-field v-model="numCustomer" label="Hành khách" type="number"></v-text-field>
         </v-form>
       </v-flex>
-      <v-flex xs6 md12 style="padding-left: 500px">
+      <v-flex xs6 md12>
         <v-btn color="info" @click="onSearch">Tìm kiếm</v-btn>
       </v-flex>
     </v-layout>

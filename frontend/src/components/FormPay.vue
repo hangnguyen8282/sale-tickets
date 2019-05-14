@@ -10,7 +10,7 @@
               {{receiveData}}
             <div class="review-price-body">{{receiveData !=null ? receiveData.destinationSend.text : ''}}</div>
             <hr/>
-            <div class="review-price-body">Thuế, phí và các khoản thu</div>
+            <div class="review-price-body">{{receiveData !=null ? receiveData.destinationSend.text : ''}}</div>
             <hr/>
             <div class="review-price-body">Tổng số tiền</div>
             <hr/>
