@@ -7,7 +7,8 @@
           <v-flex md12 class="review-info">
             <div class= "title">Chọn chuyến bay</div>
             <div class="review-price">
-            <div class="review-price-body">{{this.receivePoint.destinationSend}} {{this.receivePoint.sourceSend}}</div>
+              {{receiveData}}
+            <div class="review-price-body">{{receiveData !=null ? receiveData.destinationSend.text : ''}}</div>
             <hr/>
             <div class="review-price-body">Thuế, phí và các khoản thu</div>
             <hr/>
@@ -46,6 +47,9 @@
 
 <script>
 export default {
+  props:{
+    receiveData: null
+  },
   methods: {
     clickToNext() {
       this.$emit("clickBtnNext");
@@ -53,13 +57,7 @@ export default {
     clickToBack() {
       this.$emit("clickBtnBack");
     },
-    receivePoint(){
-      this.receivePoint = receivePoint 
-    }
   },
-  pros:{
-    receivePoint: null
-  }
 };
 </script>
 

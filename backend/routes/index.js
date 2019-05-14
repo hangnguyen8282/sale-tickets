@@ -40,7 +40,7 @@ function distanceBetween2Points(la1, lo1, la2, lo2) {
     return d;
 }
 
-router.post('/add-flight', function(req, res, next) {
+router.post('/add-flight-list', function(req, res, next) {
     Airport.find()
         .exec((err, list) => {
             const airports = {}
@@ -74,6 +74,10 @@ router.post('/add-flight', function(req, res, next) {
             })
             res.send({ status: 'ok' })
         })
+})
+
+router.post('/add-flight', function(req, res, next) {
+    res.send(req.query)
 })
 
 router.get('/search-flight', function(req, res, next) {

@@ -13,7 +13,7 @@
             <v-card class="pop-up">
               <v-card-title class="title">Thêm chuyến bay</v-card-title>
               <v-flex md12>
-                <v-text-field v-model="fightNumber" label="Fight Number"></v-text-field>
+                <v-text-field v-model="flightNumber" label="Flight Number"></v-text-field>
               </v-flex>
               <v-flex md12>
                 <v-text-field v-model="planeCode" label="Plane Code"></v-text-field>
@@ -24,13 +24,37 @@
               <v-flex md12>
                 <v-text-field v-model="airportTo" label="Airport To"></v-text-field>
               </v-flex>
-              <v-flex md12>
-                <v-date-picker v-model="dateEnd" no-title color="purple">
-                  <v-spacer></v-spacer>
-                  <v-btn flat color="primary" @click="modalPicker = false">Cancel</v-btn>
-                  <v-btn flat color="primary" @click="$refs.dialog.save(dateEnd)">OK</v-btn>
-                </v-date-picker>
-              </v-flex>
+              <v-layout row wrap>
+                <v-flex md12>
+                  <v-menu
+                    ref="menu"
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    :return-value.sync="date"
+                    lazy
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="date"
+                        label="Date Time"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="date" no-title scrollable>
+                      <v-spacer></v-spacer>
+                      <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
+                      <v-btn flat color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                    </v-date-picker>
+                  </v-menu>
+                </v-flex>
+              </v-layout>
               <v-flex md12>
                 <v-text-field v-model="priceEconomic" label="Price Economic"></v-text-field>
               </v-flex>
@@ -39,7 +63,7 @@
               </v-flex>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" @click="dialog = false">Thêm</v-btn>
+                <v-btn color="primary" @click="addFlightAdmin">Thêm</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -71,6 +95,17 @@
           <td>{{ new Date(props.item.datetime * 1000).toISOString().slice(0,10) }}</td>
           <td>{{ props.item.price_economy }}</td>
           <td>{{ props.item.price_bussiness }}</td>
+          <!-- <td><v-btn color="success" small>Sửa </v-btn><v-btn color="success">Xóa</v-btn></td> -->
+          <td>
+            <v-btn color="success" fab small>
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+          </td>
+          <td>
+            <v-btn fab small color="error">
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </td>
         </template>
       </v-data-table>
       <div class="text-xs-center pt-2">
@@ -98,18 +133,24 @@ export default {
       pagination: { rowsPerPage: 10 },
       selected: [],
       dialog: false,
-      fightNumber: "",
+      flightNumber: "",
       planeCode: "",
       airportGo: "",
       airportTo: "",
       dateTime: "",
       priceEconomic: "",
-      priceBussiness: ""
+      priceBussiness: "",
+      datetime: "",
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      modal: false,
+      menu2: false,
+      addFlight: {}
     };
   },
   async created() {
     const result = await axios({
-      url: "http://localhost:3000/get-flights"
+      url: "http://192.168.1.220:3000/get-flights"
     });
     this.info = result.data.data;
     this.pagination.totalItems = this.info.length;
@@ -126,7 +167,26 @@ export default {
         this.pagination.totalItems / this.pagination.rowsPerPage
       );
     }
-  }
+  },
+  methods: {
+    async addFlightAdmin(){
+      const flightAdmin = {
+        flightNumber: this.flightNumber,
+        planeCode: this.planeCode,
+        airportGo: this.airportGo,
+        airportTo: this.airportTo,
+        date: this.date,
+        priceEconomic: this.priceEconomic,
+        priceBussiness: this.priceBussiness
+      }
+      const result = await axios({
+        method: 'post',
+        url: "http://192.168.1.220:3000/add-flight",
+        data: flightAdmin
+      });
+      console.log(result.data)
+    }
+  },
 };
 </script>
 <style>

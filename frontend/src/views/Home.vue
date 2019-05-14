@@ -30,11 +30,18 @@
         </v-window-item>
 
         <v-window-item :value="3">
-          <FormInfoCustomer :receiveData="sentData1" @clickBtnNext="clickButtonNext" @clickBtnBack="clickToBack"/>
+          <FormInfoCustomer
+            :receiveData="sentData1"
+            @clickBtnNext="clickButtonNext"
+            @clickBtnBack="clickToBack"
+          />
         </v-window-item>
 
         <v-window-item :value="4">
-          <FormPay @clickBtnNext="clickButtonNext" @clickBtnBack="clickToBack"/>
+          <FormPay 
+            :receiveData="sentData1"
+            @clickBtnNext="clickButtonNext" 
+            @clickBtnBack="clickToBack"/>
         </v-window-item>
       </v-window>
 
@@ -50,7 +57,7 @@ import FormBuyTicket from "@/components/FormBuyTicket";
 import FormLogin from "@/components/FormLogin";
 import FormSelectFlight from "@/components/FormSelectFlight";
 import FormInfoCustomer from "@/components/FormInfoCustomer";
-import { constants } from 'crypto';
+import { constants } from "crypto";
 export default {
   components: {
     FormPay,
@@ -67,7 +74,7 @@ export default {
     model: null,
     sentData1: null,
     type: null,
-    flightSearch: [],
+    flightSearch: []
     // receivePoint: null
   }),
 
@@ -98,30 +105,22 @@ export default {
       this.step++;
       this.type = type;
     },
-    onClickSearch() {
-      this.step = this.step + 1;
-      if (this.step == 2) {
-        this.widthWindow = 1200;
-      } else if (this.step == 3) {
-        this.widthWindow = 1000;
-      }
-    },
     async onEventOfChild(params) {
       this.sentData1 = params;
       this.step++;
       this.widthWindow = 1200;
-      const keyDes = params.destinationSend.key
-      const keySource = params.sourceSend.key
-      const date = params.dateSend
-    
+      const keyDes = params.destinationSend.key;
+      const keySource = params.sourceSend.key;
+      const date = params.dateSend;
+
       const result = await axios({
-        url: 'http://192.168.1.220:3000/search-flight',
+        url: "http://192.168.1.220:3000/search-flight",
         params: {
           airport_go: keyDes,
           airport_to: keySource
         }
-      })
-      this.flightSearch = result.data.list
+      });
+      this.flightSearch = result.data.list;
       // console.log(result.data.list)
       // console.log(flight)
     }

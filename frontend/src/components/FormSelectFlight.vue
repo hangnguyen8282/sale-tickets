@@ -67,7 +67,6 @@ export default {
   created() {},
   methods: {
     showBtnSelect(key) {
-      console.log(key);
       this.showBtn = key;
     },
     onClickBtnSelect(type) {
@@ -82,7 +81,6 @@ export default {
     if (!date) return null;
 
     const [year, month, day] = date.split("-");
-    console.log(date);
     return `${day} / ${month} / ${year}`;
   }
 };
