@@ -14,9 +14,10 @@ const options = {
     db: { native_parser: true },
     server: { poolSize: 5 },
     useNewUrlParser: true,
-    user: 'hang',
-    pass: 'hang'
+    user: 'hang', //
+    pass: 'hang' //
 };
+
 mongoose.connect('mongodb://localhost:27017/manager', options).then(
     () => { console.log('Connect DB successfully') },
     err => { console.log(`Connection fail. Error: ${err}`) },

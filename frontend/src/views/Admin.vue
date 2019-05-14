@@ -6,13 +6,40 @@
         <v-flex xs6 md4>
           <v-dialog v-model="dialog" width="500">
             <template v-slot:activator="{ on }">
-              <v-btn color="primary" v-on="on">click</v-btn>
+              <v-btn height="10px;" fab color="success" v-on="on">
+                <v-icon>add</v-icon>
+              </v-btn>
             </template>
-            <v-card>
-              <v-card-text>pop-up</v-card-text>
+            <v-card class="pop-up">
+              <v-card-title class="title">Thêm chuyến bay</v-card-title>
+              <v-flex md12>
+                <v-text-field v-model="fightNumber" label="Fight Number"></v-text-field>
+              </v-flex>
+              <v-flex md12>
+                <v-text-field v-model="planeCode" label="Plane Code"></v-text-field>
+              </v-flex>
+              <v-flex md12>
+                <v-text-field v-model="airportGo" label="Airport Go"></v-text-field>
+              </v-flex>
+              <v-flex md12>
+                <v-text-field v-model="airportTo" label="Airport To"></v-text-field>
+              </v-flex>
+              <v-flex md12>
+                <v-date-picker v-model="dateEnd" no-title color="purple">
+                  <v-spacer></v-spacer>
+                  <v-btn flat color="primary" @click="modalPicker = false">Cancel</v-btn>
+                  <v-btn flat color="primary" @click="$refs.dialog.save(dateEnd)">OK</v-btn>
+                </v-date-picker>
+              </v-flex>
+              <v-flex md12>
+                <v-text-field v-model="priceEconomic" label="Price Economic"></v-text-field>
+              </v-flex>
+              <v-flex md12>
+                <v-text-field v-model="priceBussiness" label="Price Bussiness"></v-text-field>
+              </v-flex>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" flat @click="dialog = false">I accept</v-btn>
+                <v-btn color="primary" @click="dialog = false">Thêm</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -70,7 +97,14 @@ export default {
       search: "",
       pagination: { rowsPerPage: 10 },
       selected: [],
-      dialog: false
+      dialog: false,
+      fightNumber: "",
+      planeCode: "",
+      airportGo: "",
+      airportTo: "",
+      dateTime: "",
+      priceEconomic: "",
+      priceBussiness: ""
     };
   },
   async created() {
@@ -96,6 +130,9 @@ export default {
 };
 </script>
 <style>
+.pop-up {
+  padding: 30px;
+}
 .about .title {
   text-align: left;
 }

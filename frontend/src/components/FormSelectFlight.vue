@@ -9,98 +9,39 @@
         <v-flex xs6 md3 class="item">Phổ thông</v-flex>
         <v-flex xs6 md3 class="item">Thương gia</v-flex>
       </v-layout>
-      <v-layout class="table-items" @mouseover="showBtnSelect(1)" v-for="flight in flightSearch" :key="flight.key">
+      <v-layout
+        class="table-items"
+        v-for="flight in flightSearch"
+        @mouseover="showBtnSelect(flight._id)"
+        :key="flight._id"
+      >
         <v-flex xs6 md4>
-          <span>11 Th05 15:00 Đến 11 Th05 17:15</span>
+          <!-- <span>dataReturnDay</span> -->
           <br>
           <span>{{flight.flight_number}} {{flight.planes_code}}</span>
           <br>
-          <span>2 tiếng 15 phút</span>
+          <span>{{flight.distance}}</span>
         </v-flex>
         <v-flex xs6 md2>Bay thẳng</v-flex>
         <v-flex xs6 md3 class="type">
           <div class="title">ECONOMIC</div>
           <p>Từ</p>
-          <span>{{flight.price_economic}}</span>
-          <v-btn v-if="showBtn == 1" @click="onClickBtnSelect('economic')">Chọn</v-btn>
+          <div
+            class="price"
+          >{{flight.price_economy != null ? flight.price_economy.toLocaleString('vi') : ''}} VND</div>
+          <v-btn v-if="showBtn == flight._id" @click="onClickBtnSelect('economic')">Chọn</v-btn>
         </v-flex>
         <v-flex xs6 md3 class="type">
           <div class="title">BUSSINESS</div>
           <p>Từ</p>
-          <span>{{flight.price_bussiness}}</span>
-          <v-btn v-if="showBtn == 1" @click="onClickBtnSelect('bussiness')">Chọn</v-btn>
+          <div class="price">{{flight.price_bussiness != null ? flight.price_bussiness.toLocaleString('vi') : ''}} VND</div>
+          <v-btn v-if="showBtn == flight._id" @click="onClickBtnSelect('bussiness')">Chọn</v-btn>
         </v-flex>
       </v-layout>
-      <!-- <v-layout class="table-items" @mouseover="showBtnSelect(2)">
-        <v-flex xs6 md4>
-          <span>11 Th05 15:00 Đến 11 Th05 17:15</span>
-          <br>
-          <span>VN 247 Airbus A350</span>
-          <br>
-          <span>2 tiếng 15 phút</span>
-        </v-flex>
-        <v-flex xs6 md2>Bay thẳng</v-flex>
-        <v-flex xs6 md3 class="type">
-          <div class="title">ECONOMIC</div>
-          <p>Từ</p>
-          <span>3,870,000 VND (M)</span>
-          <v-btn v-if="showBtn == 2">Chọn</v-btn>
-        </v-flex>
-        <v-flex xs6 md3 class="type">
-          <div class="title">BUSSINESS</div>
-          <p>Từ</p>
-          <span>3,870,000 VND (M)</span>
-          <v-btn v-if="showBtn == 2">Chọn</v-btn>
-        </v-flex>
-      </v-layout>
-      <v-layout class="table-items" @mouseover="showBtnSelect(3)">
-        <v-flex xs6 md4>
-          <span>11 Th05 15:00 Đến 11 Th05 17:15</span>
-          <br>
-          <span>VN 247 Airbus A350</span>
-          <br>
-          <span>2 tiếng 15 phút</span>
-        </v-flex>
-        <v-flex xs6 md2>Bay thẳng</v-flex>
-        <v-flex xs6 md3 class="type">
-          <div class="title">ECONOMIC</div>
-          <p>Từ</p>
-          <span>3,870,000 VND (M)</span>
-          <v-btn v-if="showBtn == 3">Chọn</v-btn>
-        </v-flex>
-        <v-flex xs6 md3 class="type">
-          <div class="title">BUSSINESS</div>
-          <p>Từ</p>
-          <span>3,870,000 VND (M)</span>
-          <v-btn v-if="showBtn == 3">Chọn</v-btn>
-        </v-flex>
-      </v-layout>
-      <v-layout class="table-items" @mouseover="showBtnSelect(4)">
-        <v-flex xs6 md4>
-          <span>11 Th05 15:00 Đến 11 Th05 17:15</span>
-          <br>
-          <span>VN 247 Airbus A350</span>
-          <br>
-          <span>2 tiếng 15 phút</span>
-        </v-flex>
-        <v-flex xs6 md2>Bay thẳng</v-flex>
-        <v-flex xs6 md3 class="type">
-          <div class="title">ECONOMIC</div>
-          <p>Từ</p>
-          <span>3,870,000 VND (M)</span>
-          <v-btn v-if="showBtn == 4">Chọn</v-btn>
-        </v-flex>
-        <v-flex xs6 md3 class="type">
-          <div class="title">BUSSINESS</div>
-          <p>Từ</p>
-          <span>3,870,000 VND (M)</span>
-          <v-btn v-if="showBtn == 4">Chọn</v-btn>
-        </v-flex>
-      </v-layout> -->
     </div>
-        <v-flex md6 class="back-button">
-        <v-btn round outline color="info" @click="backToPre">Quay lại</v-btn>
-      </v-flex>
+    <v-flex md6 class="back-button">
+      <v-btn round outline color="info" @click="backToPre">Quay lại</v-btn>
+    </v-flex>
   </v-container>
 </template>
 
@@ -112,34 +53,49 @@ export default {
   },
   props: {
     receiveData: null,
-    flightSearch: []
+    flightSearch: Array
   },
   data: () => ({
-    showBtn: null,
-    type: null,
-    // receiveData:null
-    // receiceParams: null
+    showBtn: 1,
+    type: null
   }),
-  created() {
+  computed: {
+    dataReturnDay() {
+      return this.formatDate(this.flight.datetime);
+    }
   },
+  created() {},
   methods: {
-    showBtnSelect(n) {
-      this.showBtn = n;
+    showBtnSelect(key) {
+      console.log(key);
+      this.showBtn = key;
     },
     onClickBtnSelect(type) {
       this.type = type;
       this.$emit("clickBtnSelect", type);
-      
     },
-    backToPre(){
+    backToPre() {
       this.$emit("backToPrePage");
     }
+  },
+  formatDate(date) {
+    if (!date) return null;
+
+    const [year, month, day] = date.split("-");
+    console.log(date);
+    return `${day} / ${month} / ${year}`;
   }
 };
 </script>
 
 <style>
-.back-button{
+.type .title p {
+  text-align: justify;
+}
+.type .title .price {
+  text-align: justify;
+}
+.back-button {
   margin-top: 30px;
 }
 .table-header {

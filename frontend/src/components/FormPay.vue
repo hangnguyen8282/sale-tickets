@@ -3,22 +3,42 @@
     <v-layout wrap>
       <div class="label-info-review">Xem lại và thanh toán</div>
       <v-layout class="information-review">
-      <v-flex md6>
-        <v-flex md12 class="review-info">Chọn chuyến bay</v-flex>
-        <v-flex md12 class="review-info">Chọn chuyến bay</v-flex>
-      </v-flex>
-      <v-flex md6>
-        <v-flex md12 class="review-info">Hành khách</v-flex>
-        <v-flex md12 class="review-info">Hành khách</v-flex>
-      </v-flex>
+        <v-flex md6>
+          <v-flex md12 class="review-info">
+            <div class= "title">Chọn chuyến bay</div>
+            <div class="review-price">
+            <div class="review-price-body">{{this.receivePoint.destinationSend}} {{this.receivePoint.sourceSend}}</div>
+            <hr/>
+            <div class="review-price-body">Thuế, phí và các khoản thu</div>
+            <hr/>
+            <div class="review-price-body">Tổng số tiền</div>
+            <hr/>
+            <div class="review-price-body">Xem <a href="#">Quy định về  giá</a> và <a href ="#">Thông tin hành lý</a> hiện áp dụng</div>
+            </div>
+          </v-flex>
+        </v-flex>
+        <v-flex md6>
+          <v-flex md12 class="review-info">
+            <div class= "title">Xem lại chi phí chuyến bay</div>
+            <div class="review-price">
+            <div class="review-price-body">Giá vé<span></span></div>
+            <hr/>
+            <div class="review-price-body">Thuế, phí và các khoản thu</div>
+            <hr/>
+            <div class="review-price-body">Tổng số tiền</div>
+            <hr/>
+            <div class="review-price-body">Xem <a href="#">Quy định về  giá</a> và <a href ="#">Thông tin hành lý</a> hiện áp dụng</div>
+            </div>
+          </v-flex>
+        </v-flex>
       </v-layout>
       <!-- <v-flex md12> -->
-        <v-flex md6>
-          <v-btn round outline color="info" @click="clickToBack">Quay lại</v-btn>
-        </v-flex>
-        <v-flex md6>
-          <v-btn round color="info" @click="clickToNext">Tiếp theo</v-btn>
-        </v-flex>
+      <v-flex md6>
+        <v-btn round outline color="info" @click="clickToBack">Quay lại</v-btn>
+      </v-flex>
+      <v-flex md6>
+        <v-btn round color="info" @click="clickToNext">Tiếp theo</v-btn>
+      </v-flex>
       <!-- </v-flex> -->
     </v-layout>
   </v-container>
@@ -30,27 +50,43 @@ export default {
     clickToNext() {
       this.$emit("clickBtnNext");
     },
-    clickToBack(){
+    clickToBack() {
       this.$emit("clickBtnBack");
+    },
+    receivePoint(){
+      this.receivePoint = receivePoint 
     }
+  },
+  pros:{
+    receivePoint: null
   }
 };
 </script>
 
 <style scope>
-.information-review{
+.review-price-body{
+ padding: 10px;
+}
+.review-price{
+  text-align:left;
   padding: 20px;
-  background-color: #fefefe;
+  font-size: 16px;
+}
+.information-review {
+  padding: 20px;
+  /* background-color: #c8e0ff; */
   width: 100%;
+  /* margin: 50px; */
 }
 .label-info-review {
   padding: 20px;
+  /* margin: 10px;; */
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
-  background-color: #fefefe;
+  /* background-color: #fefefe; */
   width: 100%;
   height: 60px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
 }
 /* .label-info-review p {

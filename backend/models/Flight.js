@@ -11,5 +11,4 @@ const Flight = new Schema({
     price_economy: { type: Number, required: true },
     price_bussiness: { type: Number, required: true }
 })
-
 module.exports = mongoose.model('Flight', Flight)

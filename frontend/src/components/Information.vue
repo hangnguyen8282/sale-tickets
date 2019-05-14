@@ -4,7 +4,7 @@
       <div class="label-on-second">
         <v-layout flex-child wrap>
           <v-flex sm12 md2>
-            <div class="show-info">{{receiveParams != null ? receiveParams.destinationSend.name + ' (' + receiveParams.destinationSend.key + ')' : ''}}</div>
+            <div class="show-info">{{receiveParams != null ? receiveParams.destinationSend.key : ''}}</div>
           </v-flex>
           <v-flex md1>
             <div class="icon-fly">
@@ -13,7 +13,7 @@
             </div>
           </v-flex>
           <v-flex sm12 md2>
-            <div class="show-info">{{receiveParams != null ? receiveParams.sourceSend.name + ' (' + receiveParams.sourceSend.key + ')' : ''}}</div>
+            <div class="show-info">{{receiveParams != null ? receiveParams.sourceSend.key : ''}}</div>
           </v-flex>
           <v-flex sm12 md3>
             <div class="show-date">{{receiveParams != null ? dateRenderInfo : ''}}</div>

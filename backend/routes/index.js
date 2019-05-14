@@ -3,6 +3,7 @@ const router = express.Router()
 const axios = require('axios')
 const Airport = require('../models/Airport')
 const Flight = require('../models/Flight')
+const Customer = require('../models/Customer')
 
 /* GET home page. */
 function getPlanesCode() {
@@ -35,7 +36,7 @@ function distanceBetween2Points(la1, lo1, la2, lo2) {
     let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(la1ToRad) *
         Math.cos(la2ToRad) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    let d = R * c;
+    let d = 6371 * c;
     return d;
 }
 
@@ -44,40 +45,55 @@ router.post('/add-flight', function(req, res, next) {
         .exec((err, list) => {
             const airports = {}
             list.forEach(item => {
-                    airports[item.key] = item
-                })
-                // for (let key in airports) {
-                //     const current = airports[key]
-                //     res.send({
-                //         [key]: airports[key]
-                //     })
-                //     return
-                // }
-            const flightList = list.reduce(function(flights, item) {
-                let { routes, key, countryCode, lat, long } = item
+                airports[item.key] = item
+            })
+            list.forEach(item => {
+                let { routes, key, countryCode } = item
                 routes = routes.split('|')
-                if (routes.length > 0) {
+                if (routes.length > 12) {
                     routes.forEach(code => {
+                        if (!airports[key] || !airports[code]) return
                         const d = distanceBetween2Points(
                             airports[key].lat, airports[key].long,
                             airports[code].lat, airports[code].long,
                         )
                         const newFlight = new Flight({
-                            flight_number: key + code + d,
+                            flight_number: getFlightNumber(countryCode),
                             planes_code: getPlanesCode(),
                             airport_go: key,
                             airport_to: code,
-                            datetime: Math.floor(Date.now() / 1000),
+                            datetime: Math.floor(Date.now() / 1000 + 3600 * 24),
                             customer: [],
-                            price_economy: 0,
-                            price_bussiness: 0,
+                            price_economy: Math.floor(d) * 1100,
+                            price_bussiness: Math.floor(d) * 1100 + 500000,
+                            distance: floor(d)
                         })
                         newFlight.save()
                     })
                 }
-                return flights
-            }, [])
-            res.send({ count: flightList.length, flightList })
+            })
+            res.send({ status: 'ok' })
+        })
+})
+
+router.get('/search-flight', function(req, res, next) {
+    Flight.find({
+            airport_go: req.query.airport_go,
+            airport_to: req.query.airport_to
+        })
+        .exec((err, flights) => {
+            if (err) {
+                res.send({
+                    status: 'failed',
+                    data: [],
+                    message: err.message
+                })
+            } else {
+                res.send({
+                    status: 'ok',
+                    list: flights
+                })
+            }
         })
 })
 
@@ -93,13 +109,14 @@ router.get('/get-flights', function(req, res, next) {
             } else {
                 res.send({
                     status: 'ok',
+                    count: flights.length,
                     data: flights
                 })
             }
         })
 })
 
-router.get('/add-airport', function(req, res, next) {
+router.post('/add-airport', function(req, res, next) {
     const urlGetAirport = 'https://www.jetstar.com/vi-VN/apiservices/flightschedulev2/getflightschedules'
     axios(urlGetAirport)
         .then(({ data }) => {
@@ -124,6 +141,10 @@ router.get('/add-airport', function(req, res, next) {
 
                         airports = [...airports, airport]
                     })
+                })
+
+                airports.forEach(airport => {
+                    new Airport(airport).save()
                 })
 
                 airports.forEach(airport => {

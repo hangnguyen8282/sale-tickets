@@ -30,7 +30,7 @@
         </v-window-item>
 
         <v-window-item :value="3">
-          <FormInfoCustomer @clickBtnNext="clickButtonNext" @clickBtnBack="clickToBack"/>
+          <FormInfoCustomer :receiveData="sentData1" @clickBtnNext="clickButtonNext" @clickBtnBack="clickToBack"/>
         </v-window-item>
 
         <v-window-item :value="4">
@@ -67,7 +67,8 @@ export default {
     model: null,
     sentData1: null,
     type: null,
-    flightSearch: []
+    flightSearch: [],
+    // receivePoint: null
   }),
 
   computed: {
@@ -121,6 +122,8 @@ export default {
         }
       })
       this.flightSearch = result.data.list
+      // console.log(result.data.list)
+      // console.log(flight)
     }
   }
 };

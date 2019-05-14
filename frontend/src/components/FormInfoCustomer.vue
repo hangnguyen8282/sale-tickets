@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xl>
-    <Information/>
+    <Information :receiveParams="receiveData"/>
     <div class="info-format" solid>
       <v-layout flex-child wrap>
         <v-flex md12>
@@ -17,20 +17,37 @@
         </v-flex>
         <!-- <v-flex md12> -->
         <v-flex xs6>
-          <v-combobox v-model="select" :items="items" label="Ngày tháng năm sinh" multiple chips>
-            <template v-slot:selection="data">
-              <v-chip
-                :key="JSON.stringify(data.item)"
-                :selected="data.selected"
-                :disabled="data.disabled"
-                class="v-chip--select-multi"
-                @input="data.parent.selectItem(data.item)"
-              >{{ data.item }}</v-chip>
+          <v-menu
+            ref="menu"
+            v-model="menu"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="date"
+                label="Ngày tháng năm sinh"
+                prepend-icon="event"
+                readonly
+                v-on="on"
+              ></v-text-field>
             </template>
-          </v-combobox>
+            <v-date-picker
+              ref="picker"
+              v-model="date"
+              :max="new Date().toISOString().substr(0, 10)"
+              min="1950-01-01"
+              @change="save"
+            ></v-date-picker>
+          </v-menu>
         </v-flex>
         <v-flex md6>
-          <v-select :items="sexitems" :rules="sexRules" label="Giới tính" height="40" required></v-select>
+          <v-select :items="sexitems" :rules="sexRules" label="Giới tính" required></v-select>
         </v-flex>
         <v-flex md12>
           <v-checkbox
@@ -87,39 +104,18 @@ export default {
   components: {
     Information
   },
+  props: {
+    receiveData: null,
+  },
+  watch: {
+    menu(val) {
+      val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
+    }
+  },
   data: () => ({
     select: ["Ngày", "Tháng", "Năm"],
-    dayitems: [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-      "10",
-      "11",
-      "12",
-      "13",
-      "14",
-      "15",
-      "16",
-      "17",
-      "18",
-      "19",
-      "20",
-      "21",
-      "22",
-      "23",
-      "24",
-      "25",
-      "26",
-      "27"
-    ],
-    monthitems: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-    yearitems: [],
+    date: null,
+    menu: false,
     sexitems: ["Nam", "Nữ"],
     sexRules: [v => !!v || "Yêu cầu có giới tính"],
     items: ["Ông", "Bà", "Cô/Chị"],
@@ -142,8 +138,11 @@ export default {
     clickToNext() {
       this.$emit("clickBtnNext");
     },
-    clickToBack(){
+    clickToBack() {
       this.$emit("clickBtnBack");
+    },
+    save(date) {
+      this.$refs.menu.save(date);
     }
   }
 };
