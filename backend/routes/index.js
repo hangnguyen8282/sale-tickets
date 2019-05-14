@@ -76,10 +76,6 @@ router.post('/add-flight-list', function(req, res, next) {
         })
 })
 
-router.post('/add-flight', function(req, res, next) {
-    res.send(req.query)
-})
-
 router.get('/search-flight', function(req, res, next) {
     Flight.find({
             airport_go: req.query.airport_go,

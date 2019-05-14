@@ -14,7 +14,7 @@
               <FormBuyTicket @clicked="onEventOfChild"/>
             </v-tab-item>
             <v-tab-item>
-              <FormLogin/>
+              <!-- <FormLogin/> -->
             </v-tab-item>
           </v-tabs>
         </v-window-item>
@@ -39,7 +39,12 @@
         </v-window-item>
 
         <v-window-item :value="4">
-          <FormPay @onFormPayNext="onFormPayNext" @clickBtnBack="clickToBack" :info="info" :receiveData="sentData1"/>
+          <FormPay
+            :info="info"
+            :receiveData="sentData1"
+            @onFormPayNext="onFormPayNext"
+            @clickBtnBack="clickToBack"
+          />
         </v-window-item>
       </v-window>
 
@@ -112,7 +117,7 @@ export default {
       const date = params.dateSend;
 
       const result = await axios({
-        url: "http://192.168.1.220:3000/search-flight",
+        url: "http://localhost:3000/search-flight",
         params: {
           airport_go: keyDes,
           airport_to: keySource
@@ -123,11 +128,11 @@ export default {
       // console.log(flight)
     },
     onFormInfoNext(info) {
-      this.step ++
-      this.info = info
+      this.step++;
+      this.info = info;
     },
     onFormPayNext(info) {
-      this.info = info
+      this.info = info;
     }
   }
 };
