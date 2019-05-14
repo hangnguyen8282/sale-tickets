@@ -43,7 +43,7 @@
             :info="info"
             :flight="flight"
             :receiveData="sentData1"
-            @onFormPayNext="onFormPayNext"
+            @register="register"
             @clickBtnBack="clickToBack"
           />
         </v-window-item>
@@ -132,8 +132,22 @@ export default {
       this.step++;
       this.info = info;
     },
-    onFormPayNext(info) {
-      this.info = info;
+    async register() {
+      const result = await axios({
+        method: "POST",
+        url: "http://localhost:3000/book-ticket",
+        data: {
+          info: {
+            ...this.info,
+            data: JSON.stringify({
+              count: this.sentData1.dataNumberCustomer,
+              ...this.flight
+            })
+          },
+          _id: this.flight._id
+        }
+      });
+      console.log(result.data);
     }
   }
 };

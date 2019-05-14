@@ -88,7 +88,7 @@
       <v-flex md6>
         <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on }">
-            <v-btn color="info" round v-on="on">Đặt vé</v-btn>
+            <v-btn color="info" round v-on="on" @click="clickToNext">Đặt vé</v-btn>
           </template>
           <v-card class="pop-up">
             <v-card-title class="title">Đặt vé thành công</v-card-title>
@@ -112,11 +112,12 @@ export default {
   },
   data: () => ({
     success: null,
-    dialog: false
+    dialog: false,
+    randomCost: Math.floor(Math.random() * 2000 + 3000) * 100
   }),
   methods: {
     clickToNext() {
-      this.$emit("onFormPayNext");
+      this.$emit("register");
     },
     clickToBack() {
       this.$emit("clickBtnBack");

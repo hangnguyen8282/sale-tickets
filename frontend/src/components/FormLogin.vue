@@ -4,18 +4,17 @@
       <v-flex xs12 md6>
         <v-flex xs12 md6></v-flex>
         <v-text-field v-model="pnrcode" :rules="pnrRules" label="Mã xác nhận PNR" required></v-text-field>
-        <v-text-field v-model="lastname" :rules="nameRules" label="Họ" required></v-text-field>
         <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
         <v-dialog v-model="dialog" width="1000">
           <template v-slot:activator="{ on }">
-            <v-btn color="info" round v-on="on">Tìm kiếm</v-btn>
+            <v-btn color="info" round v-on="on" @click="onSearch">Tìm kiếm</v-btn>
           </template>
           <v-card class="pop-up">
             <v-card-title class="title">Các chuyến bay đã đặt</v-card-title>
+              <v-flex md12 class="review-info">{{infoCustomer}}</v-flex>
               <v-flex md12 class="review-info">plane-code</v-flex>
               <v-flex md12 class="review-info">plane-code</v-flex>
-              <v-flex md12 class="review-info">plane-code</v-flex>
-              <v-flex md12 class="review-info">plane-code</v-flex>
+              <v-flex md12 class="review-info">{{infoFlight}}</v-flex>
               <v-btn color="primary" flat @click="dialog = false">OK</v-btn>
           </v-card>
         </v-dialog>
@@ -50,6 +49,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data: () => ({
     valid: false,
@@ -57,7 +57,6 @@ export default {
     dialog: false,
     pnrRules: [
       v => !!v || "Yêu cầu có PNR",
-      v => /^\d+$/.test(v) || "PNR must be valid"
     ],
     lastname: "",
     nameRules: [v => !!v || "Yêu cầu có họ"],
@@ -69,8 +68,27 @@ export default {
     numbercard: "",
     numbercardRules: [v => !!v],
     passcard: "",
-    passcardRules: [v => !!v]
-  })
+    passcardRules: [v => !!v],
+    infoCustomer: null,
+    infoFlight: null
+  }),
+  methods: {
+    async onSearch(){
+      const result = await axios({
+        method: "get",
+        url: "http://localhost:3000/find-ticket",
+        params: {
+          key: this.pnrcode,
+          email: this.email
+        }
+      });
+      if (result.data) {
+        const {data: infoFlight, ...infoCustomer} = result.data
+        this.infoCustomer = infoCustomer
+        this.infoFlight = JSON.parse(infoFlight)
+      }
+    }
+  }
 };
 </script>
 

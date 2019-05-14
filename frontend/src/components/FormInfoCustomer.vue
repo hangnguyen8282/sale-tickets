@@ -44,7 +44,7 @@
           </v-menu>
         </v-flex>
         <v-flex md6>
-          <v-select :items="sexitems" :rules="sexRules" label="Giới tính" required></v-select>
+          <v-select :items="sexitems" :rules="sexRules" label="Giới tính" required v-model="sex"></v-select>
         </v-flex>
         <v-flex xs12 md6>
           <v-text-field v-model="phone" :rules="phoneRules" label="Số điện thoại"></v-text-field>

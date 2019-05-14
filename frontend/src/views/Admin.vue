@@ -95,21 +95,24 @@
           <td>{{ new Date(props.item.datetime * 1000).toISOString().slice(0,10) }}</td>
           <td>{{ props.item.price_economy }}</td>
           <td>{{ props.item.price_bussiness }}</td>
-          <!-- <td><v-btn color="success" small>Sửa </v-btn><v-btn color="success">Xóa</v-btn></td> -->
+          <!-- <td>
+            <v-btn color="success" small>Sửa</v-btn>
+            <v-btn color="success" @click="deleteFlight(props.item._id)">Xóa</v-btn>
+          </td> -->
           <td>
             <v-btn color="success" fab small>
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </td>
           <td>
-            <v-btn fab small color="error">
+            <v-btn fab small color="error" @click="deleteFlight(props.item._id)">
               <v-icon>mdi-delete</v-icon>
             </v-btn>
           </td>
         </template>
       </v-data-table>
       <div class="text-xs-center pt-2">
-        <v-pagination v-model="pagination.page" :length="pages" :total-visible="10"></v-pagination>
+        <v-pagination v-model="pagination.page" :length="pages" :total-visible="15"></v-pagination>
       </div>
     </v-container>
   </div>
@@ -130,7 +133,7 @@ export default {
       ],
       info: [],
       search: "",
-      pagination: { rowsPerPage: 10 },
+      pagination: { rowsPerPage: 30 },
       dateEnd: null,
       selected: [],
       dialog: false,
@@ -180,15 +183,22 @@ export default {
         date: this.date,
         priceEconomic: this.priceEconomic,
         priceBussiness: this.priceBussiness
-      }
+      };
       const result = await axios({
-        method: 'post',
-        url: "http://192.168.1.220:3000/add-flight",
+        method: "post",
+        url: "http://localhost:3000/add-flight",
         data: flightAdmin
       });
-      console.log(result.data)
+    },
+    async deleteFlight(_id) {
+      this.info = this.info.filter(item => item._id != _id)
+      const result = await axios({
+        method: "get",
+        url: "http://localhost:3000/delete-flight",
+        params: {_id}
+      });
     }
-  },
+  }
 };
 </script>
 <style>
