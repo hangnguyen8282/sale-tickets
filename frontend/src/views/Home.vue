@@ -21,43 +21,36 @@
 
         <!-- switch to page 2 -->
         <v-window-item :value="2">
-          <FormSelectFlight :receiveData="sentData1" @clickBtnSelect="clickOfChildTwo"/>
+          <FormSelectFlight
+            :receiveData="sentData1"
+            :flightSearch="flightSearch"
+            @backToPrePage="clickToBack"
+            @clickBtnSelect="clickOfChildTwo"
+          />
         </v-window-item>
 
         <v-window-item :value="3">
-          {{type}}
-          <FormInfoCustomer/>
+          <FormInfoCustomer @clickBtnNext="clickButtonNext" @clickBtnBack="clickToBack"/>
         </v-window-item>
 
         <v-window-item :value="4">
-          {{type}}
-          <FormPay/>
+          <FormPay @clickBtnNext="clickButtonNext" @clickBtnBack="clickToBack"/>
         </v-window-item>
       </v-window>
 
       <v-divider></v-divider>
-      <!-- <v-card-actions>
-        <v-btn v-if="step !== 1" flat @click="step--">Back</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn
-          :disabled="step === 3"
-          color="primary"
-          depressed
-          v-if="tabActive == 0"
-          @click="onClickSearch"
-          round
-        >Tìm kiếm</v-btn>
-      </v-card-actions>-->
     </v-card>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import FormPay from "@/components/FormPay";
 import FormBuyTicket from "@/components/FormBuyTicket";
 import FormLogin from "@/components/FormLogin";
 import FormSelectFlight from "@/components/FormSelectFlight";
 import FormInfoCustomer from "@/components/FormInfoCustomer";
+import { constants } from 'crypto';
 export default {
   components: {
     FormPay,
@@ -67,13 +60,14 @@ export default {
     FormSelectFlight
   },
   data: () => ({
-    step: 3,
+    step: 1,
     tabActive: 0,
     widthWindow: 700,
     tab: ["Mua vé trực tuyến", "Quản lý chuyến bay"],
     model: null,
     sentData1: null,
-    type: null
+    type: null,
+    flightSearch: []
   }),
 
   computed: {
@@ -93,6 +87,12 @@ export default {
     }
   },
   methods: {
+    clickButtonNext() {
+      this.step++;
+    },
+    clickToBack() {
+      this.step = this.step - 1;
+    },
     clickOfChildTwo(type) {
       this.step++;
       this.type = type;
@@ -105,10 +105,22 @@ export default {
         this.widthWindow = 1000;
       }
     },
-    onEventOfChild(params) {
+    async onEventOfChild(params) {
       this.sentData1 = params;
       this.step++;
       this.widthWindow = 1200;
+      const keyDes = params.destinationSend.key
+      const keySource = params.sourceSend.key
+      const date = params.dateSend
+    
+      const result = await axios({
+        url: 'http://192.168.1.220:3000/search-flight',
+        params: {
+          airport_go: keyDes,
+          airport_to: keySource
+        }
+      })
+      this.flightSearch = result.data.list
     }
   }
 };

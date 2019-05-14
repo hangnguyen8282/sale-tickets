@@ -9,11 +9,11 @@
         <v-flex xs6 md3 class="item">Phổ thông</v-flex>
         <v-flex xs6 md3 class="item">Thương gia</v-flex>
       </v-layout>
-      <v-layout class="table-items" @mouseover="showBtnSelect(1)">
+      <v-layout class="table-items" @mouseover="showBtnSelect(1)" v-for="flight in flightSearch" :key="flight.key">
         <v-flex xs6 md4>
           <span>11 Th05 15:00 Đến 11 Th05 17:15</span>
           <br>
-          <span>VN 247 Airbus A350</span>
+          <span>{{flight.flight_number}} {{flight.planes_code}}</span>
           <br>
           <span>2 tiếng 15 phút</span>
         </v-flex>
@@ -21,17 +21,17 @@
         <v-flex xs6 md3 class="type">
           <div class="title">ECONOMIC</div>
           <p>Từ</p>
-          <span>3,870,000 VND (M)</span>
+          <span>{{flight.price_economic}}</span>
           <v-btn v-if="showBtn == 1" @click="onClickBtnSelect('economic')">Chọn</v-btn>
         </v-flex>
         <v-flex xs6 md3 class="type">
           <div class="title">BUSSINESS</div>
           <p>Từ</p>
-          <span>3,870,000 VND (M)</span>
+          <span>{{flight.price_bussiness}}</span>
           <v-btn v-if="showBtn == 1" @click="onClickBtnSelect('bussiness')">Chọn</v-btn>
         </v-flex>
       </v-layout>
-      <v-layout class="table-items" @mouseover="showBtnSelect(2)">
+      <!-- <v-layout class="table-items" @mouseover="showBtnSelect(2)">
         <v-flex xs6 md4>
           <span>11 Th05 15:00 Đến 11 Th05 17:15</span>
           <br>
@@ -96,10 +96,10 @@
           <span>3,870,000 VND (M)</span>
           <v-btn v-if="showBtn == 4">Chọn</v-btn>
         </v-flex>
-      </v-layout>
+      </v-layout> -->
     </div>
         <v-flex md6 class="back-button">
-        <v-btn round outline color="info">Quay lại</v-btn>
+        <v-btn round outline color="info" @click="backToPre">Quay lại</v-btn>
       </v-flex>
   </v-container>
 </template>
@@ -111,7 +111,8 @@ export default {
     Information
   },
   props: {
-    receiveData: null
+    receiveData: null,
+    flightSearch: []
   },
   data: () => ({
     showBtn: null,
@@ -119,6 +120,8 @@ export default {
     // receiveData:null
     // receiceParams: null
   }),
+  created() {
+  },
   methods: {
     showBtnSelect(n) {
       this.showBtn = n;
@@ -127,6 +130,9 @@ export default {
       this.type = type;
       this.$emit("clickBtnSelect", type);
       
+    },
+    backToPre(){
+      this.$emit("backToPrePage");
     }
   }
 };

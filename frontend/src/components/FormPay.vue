@@ -2,29 +2,47 @@
   <v-container grid-list-xl>
     <v-layout wrap>
       <div class="label-info-review">Xem lại và thanh toán</div>
-      <v-flex md6 class="review-info">
-        <p>Chọn chuyến bay</p>
+      <v-layout class="information-review">
+      <v-flex md6>
+        <v-flex md12 class="review-info">Chọn chuyến bay</v-flex>
+        <v-flex md12 class="review-info">Chọn chuyến bay</v-flex>
       </v-flex>
-      <v-flex md6 class="review-info">
-        <p>Chọn chuyến bay</p>
+      <v-flex md6>
+        <v-flex md12 class="review-info">Hành khách</v-flex>
+        <v-flex md12 class="review-info">Hành khách</v-flex>
       </v-flex>
-    </v-layout>
-    <v-layout wrap>
-      <v-flex md6 class="review-info">
-        <p>Hành khách</p>
-      </v-flex>
-      <v-flex md6 class="review-info">
-          <p>Hành khách</p>
-      </v-flex>
+      </v-layout>
+      <!-- <v-flex md12> -->
+        <v-flex md6>
+          <v-btn round outline color="info" @click="clickToBack">Quay lại</v-btn>
+        </v-flex>
+        <v-flex md6>
+          <v-btn round color="info" @click="clickToNext">Tiếp theo</v-btn>
+        </v-flex>
+      <!-- </v-flex> -->
     </v-layout>
   </v-container>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    clickToNext() {
+      this.$emit("clickBtnNext");
+    },
+    clickToBack(){
+      this.$emit("clickBtnBack");
+    }
+  }
+};
 </script>
 
-<style>
+<style scope>
+.information-review{
+  padding: 20px;
+  background-color: #fefefe;
+  width: 100%;
+}
 .label-info-review {
   padding: 20px;
   border-top-right-radius: 10px;

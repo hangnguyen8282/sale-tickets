@@ -79,11 +79,11 @@ export default {
     dateEnd: new Date().toISOString().substr(0, 10)
   }),
   async created() {
-    // const list = await getAriportList();
-    // this.airports = list.map(item => {
-    //     item.text = item.name + ` (${item.key})`
-    //     return item
-    //   })
+    const list = await getAriportList();
+    this.airports = list.map(item => {
+      item.text = item.name + ` (${item.key})`;
+      return item;
+    });
   },
   computed: {
     dateStartFormatted() {
@@ -119,7 +119,7 @@ export default {
       if (!date) return null;
 
       const [year, month, day] = date.split("-");
-      console.log(date)
+      console.log(date);
       return `${day} / ${month} / ${year}`;
     },
     filter(item, queryText, itemText) {
@@ -129,10 +129,12 @@ export default {
     },
     onSearch() {
       const params = {
-        // destinationSend: this.destination,
+        destinationSend: this.destination,
+        sourceSend: this.source,
         dateSend: this.dateStart,
         dataNumberCustomer: this.numCustomer
       };
+      console.log(params.sourceSend);
       this.$emit("clicked", params);
     }
   }

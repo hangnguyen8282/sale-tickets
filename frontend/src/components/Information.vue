@@ -4,7 +4,7 @@
       <div class="label-on-second">
         <v-layout flex-child wrap>
           <v-flex sm12 md2>
-            <div class="show-info">HAN</div>
+            <div class="show-info">{{receiveParams != null ? receiveParams.destinationSend.name + ' (' + receiveParams.destinationSend.key + ')' : ''}}</div>
           </v-flex>
           <v-flex md1>
             <div class="icon-fly">
@@ -13,7 +13,7 @@
             </div>
           </v-flex>
           <v-flex sm12 md2>
-            <div class="show-info">SGN</div>
+            <div class="show-info">{{receiveParams != null ? receiveParams.sourceSend.name + ' (' + receiveParams.sourceSend.key + ')' : ''}}</div>
           </v-flex>
           <v-flex sm12 md3>
             <div class="show-date">{{receiveParams != null ? dateRenderInfo : ''}}</div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+
 export default {
   data: () => ({}),
   props: {
@@ -65,6 +66,11 @@ export default {
   padding: 20px;
   font-size: 18px;
   font-weight: bold;
+}
+.show-info-body{
+  padding: 20px;
+  font-size: 16px;
+  text-align: justify;
 }
 .label-on-first {
   border-radius: 10px;

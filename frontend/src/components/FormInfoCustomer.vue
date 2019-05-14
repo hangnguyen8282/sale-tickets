@@ -72,10 +72,10 @@
     </div>
     <v-layout>
       <v-flex md6>
-        <v-btn round outline color="info">Quay lại</v-btn>
+        <v-btn round outline color="info" @click="clickToBack">Quay lại</v-btn>
       </v-flex>
       <v-flex md6>
-        <v-btn round color="info">Tiếp theo</v-btn>
+        <v-btn round color="info" @click="clickToNext">Tiếp theo</v-btn>
       </v-flex>
     </v-layout>
   </v-container>
@@ -130,16 +130,26 @@ export default {
     firstnameRules: [v => !!v || "Yêu cầu có tên"],
     checkbox: false,
     sdt1: "+84 ",
-    phoneRules: [v => !!v || "Yêu cầu có số điện thoại"],
+    phoneRules: [v => (!!v && v.length >= 13) || "Yêu cầu có số điện thoại"],
     sdt2: "+84 ",
     email1: "",
     email2: "",
+    email1Confirm: "",
+    email2Confirm: "",
     emailRules: [v => !!v || "Yêu cầu có email"]
-  })
+  }),
+  methods: {
+    clickToNext() {
+      this.$emit("clickBtnNext");
+    },
+    clickToBack(){
+      this.$emit("clickBtnBack");
+    }
+  }
 };
 </script>
 
-<style>
+<style scope>
 .info-format {
   border-radius: 10px;
   border-style: solid;
