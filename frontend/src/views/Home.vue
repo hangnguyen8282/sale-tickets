@@ -118,7 +118,7 @@ export default {
       const date = params.dateSend;
 
       const result = await axios({
-        url: "http://192.168.1.220:3000/search-flight",
+        url: "http://localhost:3000/search-flight",
         params: {
           airport_go: keyDes,
           airport_to: keySource
@@ -147,6 +147,9 @@ export default {
           _id: this.flight._id
         }
       });
+      if (result.data) {
+        alert(`Bạn đã đặt vé thành công! Mã vé của bạn là: ${result.data.customer.key}`)
+      }
       console.log(result.data);
     }
   }

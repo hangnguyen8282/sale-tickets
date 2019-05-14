@@ -154,7 +154,7 @@ export default {
   },
   async created() {
     const result = await axios({
-      url: "http://192.168.1.220:3000/get-flights"
+      url: "http://localhost:3000/get-flights"
     });
     this.info = result.data.data;
     this.pagination.totalItems = this.info.length;
