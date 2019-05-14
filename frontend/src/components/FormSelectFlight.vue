@@ -12,7 +12,7 @@
       <v-layout
         class="table-items"
         v-for="flight in flightSearch"
-        @mouseover="showBtnSelect(flight._id)"
+        @mouseover="onHover(flight._id)"
         :key="flight._id"
       >
         <v-flex xs6 md4>
@@ -29,13 +29,13 @@
           <div
             class="price"
           >{{flight.price_economy != null ? flight.price_economy.toLocaleString('vi') : ''}} VND</div>
-          <v-btn v-if="showBtn == flight._id" @click="onClickBtnSelect('economic')">Chọn</v-btn>
+          <v-btn v-if="showBtn == flight._id" @click="selectType('economic', flight)">Chọn</v-btn>
         </v-flex>
         <v-flex xs6 md3 class="type">
           <div class="title">BUSSINESS</div>
           <p>Từ</p>
           <div class="price">{{flight.price_bussiness != null ? flight.price_bussiness.toLocaleString('vi') : ''}} VND</div>
-          <v-btn v-if="showBtn == flight._id" @click="onClickBtnSelect('bussiness')">Chọn</v-btn>
+          <v-btn v-if="showBtn == flight._id" @click="selectType('bussiness', flight)">Chọn</v-btn>
         </v-flex>
       </v-layout>
     </div>
@@ -66,12 +66,12 @@ export default {
   },
   created() {},
   methods: {
-    showBtnSelect(key) {
+    onHover(key) {
       this.showBtn = key;
     },
-    onClickBtnSelect(type) {
-      this.type = type;
-      this.$emit("clickBtnSelect", type);
+    selectType(type, flight) {
+      flight.type = type
+      this.$emit("selectType", flight);
     },
     backToPre() {
       this.$emit("backToPrePage");

@@ -33,31 +33,36 @@
           </v-flex>
         </v-flex>
       </v-layout>
-      <!-- <v-flex md12> -->
       <v-flex md6>
         <v-btn round outline color="info" @click="clickToBack">Quay lại</v-btn>
       </v-flex>
       <v-flex md6>
         <v-btn round color="info" @click="clickToNext">Tiếp theo</v-btn>
       </v-flex>
-      <!-- </v-flex> -->
+      <!-- {{info}} -->
     </v-layout>
   </v-container>
 </template>
 
 <script>
 export default {
-  props:{
-    receiveData: null
+  props: {
+    info: null
   },
   methods: {
     clickToNext() {
-      this.$emit("clickBtnNext");
+      this.$emit("onFormPayNext");
     },
     clickToBack() {
       this.$emit("clickBtnBack");
     },
+    // receivePoint(){
+    //   this.receivePoint = receivePoint 
+    // }
   },
+  pros:{
+    receiveData: null
+  }
 };
 </script>
 

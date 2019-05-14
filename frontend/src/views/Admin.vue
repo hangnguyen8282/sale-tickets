@@ -131,6 +131,7 @@ export default {
       info: [],
       search: "",
       pagination: { rowsPerPage: 10 },
+      dateEnd: null,
       selected: [],
       dialog: false,
       flightNumber: "",

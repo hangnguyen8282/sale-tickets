@@ -5,6 +5,8 @@
         <v-layout flex-child wrap>
           <v-flex sm12 md2>
             <div class="show-info">{{receiveParams != null ? receiveParams.destinationSend.key : ''}}</div>
+            <!-- {{flight ? flight.flight_number : ''}}
+            {{flight ? flight.planes_code : ''}} -->
           </v-flex>
           <v-flex md1>
             <div class="icon-fly">
@@ -37,13 +39,13 @@
 export default {
   data: () => ({}),
   props: {
-    receiveParams: null
+    receiveParams: null,
+    flight: null
   },
   methods: {
     formatDate(date) {
       if (!date) return null;
-
-      const [year, month, day] = date.split("-");
+      const [year, month, day] = date.split("-")
       return `${day} / ${month} / ${year}`;
     }
   },

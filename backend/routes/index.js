@@ -120,6 +120,22 @@ router.get('/get-flights', function(req, res, next) {
         })
 })
 
+router.post('/add-flight', function(req, res, next) {
+    const body = req.body
+    const flight = new Flight({
+        flight_number: body.flightNumber,
+        planes_code: body.planeCode,
+        airport_go: body.airportGo,
+        airport_to: body.airportTo,
+        datetime: new Date(body.date).getTime() / 1000,
+        customer: body.customer ? body.customer : [],
+        price_economy: body.priceEconomic,
+        price_bussiness: body.priceBussiness,
+    })
+    flight.save()
+    res.send(flight)
+})
+
 router.post('/add-airport', function(req, res, next) {
     const urlGetAirport = 'https://www.jetstar.com/vi-VN/apiservices/flightschedulev2/getflightschedules'
     axios(urlGetAirport)
