@@ -12,22 +12,16 @@
           </template>
           <v-card class="pop-up">
             <v-card-title class="title">Các chuyến bay đã đặt</v-card-title>
-            <v-flex md6>
-              <v-flex md12>plane-code</v-flex>
-              <v-flex md12>airport-go</v-flex>
-            </v-flex>
-            <v-flex md6>
-              <v-flex md12>airport-to</v-flex>
-              <v-flex md12>date</v-flex>
-              <!-- <v-flex md3>price</v-flex> -->
-            </v-flex>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" flat @click="dialog = false">OK</v-btn>
+              <v-flex md12 class="review-info">plane-code</v-flex>
+              <v-flex md12 class="review-info">plane-code</v-flex>
+              <v-flex md12 class="review-info">plane-code</v-flex>
+              <v-flex md12 class="review-info">plane-code</v-flex>
+              <v-btn color="primary" flat @click="dialog = false">OK</v-btn>
           </v-card>
         </v-dialog>
       </v-flex>
       <v-flex xs12 md6>
-        <v-img src="../assets/images/300.jpeg" aspect-ratio="2"></v-img>
+        <img src="../assets/images/4.jpg" height="150" width="250">
         <v-btn color="success">ĐĂNG NHẬP VÀO TÀI KHOẢN CỦA TÔI</v-btn>
         <v-layout>
           <v-flex xs12 md6>
@@ -81,4 +75,13 @@ export default {
 </script>
 
 <style scoped>
+.review-info {
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #9bb9ce;
+  padding: 25px;
+  margin: 10px;
+  margin-top: 20px !important;
+}
 </style>

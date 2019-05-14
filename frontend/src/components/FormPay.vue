@@ -2,8 +2,8 @@
   <v-container grid-list-xl>
     <v-layout wrap>
       <div class="label-info-review">Xem lại và thanh toán</div>
-      <!-- {{receiveData}} -->
-      <!-- {{flight}} -->
+      <!-- {{receiveData}}
+      {{flight}} -->
       <v-layout class="information-review">
         <v-flex md6>
           <v-flex md12 class="review-info">
@@ -58,7 +58,7 @@
                 Thuế, phí và các khoản thu:
                 <span
                   style="padding-left: 105px;"
-                >{{randomCost.toLocaleString('vi')}} VND</span>
+                >500.000 VND</span>
               </div>
               <hr>
               <div style="font-weight: bold" class="review-price-body">
@@ -66,11 +66,11 @@
                 <span
                   style="padding-left: 500px, font-weight: bold"
                   v-if="flight && flight.type =='economic'"
-                >{{(flight && flight.price_economy + randomCost).toLocaleString('vi')}} VND</span>
+                >{{(flight && flight.price_economy + 500000).toLocaleString('vi')}} VND</span>
                 <span
                   style="padding-left: 500px, font-weight: bold"
                   v-if="flight && flight.type =='bussiness'"
-                >{{(flight && flight.price_bussiness + randomCost).toLocaleString('vi')}} VND</span>
+                >{{(flight && flight.price_bussiness + 500000).toLocaleString('vi')}} VND</span>
               </div>
               <hr>
               <div class="review-price-body">
@@ -122,11 +122,6 @@ export default {
       this.$emit("clickBtnBack");
     }
   },
-  computed: {
-    randomCost() {
-      return Math.floor(Math.random() * 2000 + 3000) * 100;
-    }
-  }
 };
 </script>
 

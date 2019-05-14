@@ -20,7 +20,7 @@
           <br>
           <span>{{flight.flight_number}} {{flight.planes_code}}</span>
           <br>
-          <span>{{flight.distance}}</span>
+          <span>{{flight !=null ? (new Date(flight.datetime * 1000).toISOString().slice(0,10)) : ''}}</span>
         </v-flex>
         <v-flex xs6 md2>Bay thẳng</v-flex>
         <v-flex xs6 md3 class="type">
